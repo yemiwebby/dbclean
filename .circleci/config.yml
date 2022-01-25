@@ -1,0 +1,34 @@
+version: 2.1
+orbs:
+  heroku: circleci/heroku@1.2.6
+jobs:
+  build:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git
+
+  permission:
+    docker:
+      - image: cimg/node:17.4.0
+    steps:
+      - run:
+          name: Check access and update permissions
+          command: "curl https://[YOUR_HEROKU_APP_NAME].herokuapp.com/check-access"
+
+parameters:
+  run-schedule:
+    type: boolean
+    default: false
+
+workflows:
+  deploy:
+    when:
+      not: << pipeline.parameters.run-schedule >>
+    jobs:
+      - build
+  check_permissions:
+    when: << pipeline.parameters.run-schedule >>
+    jobs:
+      - permission
