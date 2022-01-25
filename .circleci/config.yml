@@ -15,7 +15,7 @@ jobs:
       - image: cimg/node:17.4.0
     steps:
       - run:
-          name: Check access and update permissions
+          name: Check access and update permissions for users
           command: "curl https://db-backup-circleci.herokuapp.com/check-access"
 
 parameters:
