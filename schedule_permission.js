@@ -10,29 +10,36 @@ const token = process.env.CIRCLECI_TOKEN;
 const postScheduleEndpoint = `${API_BASE_URL}/${vcs}/${org}/${project}/schedule`;
 
 async function checkAndChangePermissionAccess() {
-  let res = await axios.post(
-    postScheduleEndpoint,
-    {
-      name: "Check and Change permission",
-      description:
-        "Check and revoke permissions assigned to users every night.",
-      "attribution-actor": "system",
-      parameters: {
-        branch: "main",
-        "run-schedule": true,
+  try {
+    let res = await axios.post(
+      postScheduleEndpoint,
+      {
+        name: "Check and Change permission",
+        description:
+          "Check and revoke permissions assigned to users every night.",
+        "attribution-actor": "current",
+        parameters: {
+          branch: "main",
+          "run-schedule": true,
+        },
+        timetable: {
+          "per-hour": 30,
+          "hours-of-day": [1],
+          "days-of-week": ["TUE", "WED", "THU", "FRI", "SAT"],
+        },
       },
-      timetable: {
-        "per-hour": 1,
-        "hours-of-day": [1],
-        "days-of-week": ["TUE", "WED", "THU", "FRI", "SAT"],
-      },
-    },
-    {
-      headers: { "circle-token": token },
-    }
-  );
+      {
+        headers: { "circle-token": token },
+      }
+    );
 
-  console.log(res.data);
+    console.log(res.data, "This is a good response");
+  } catch (error) {
+    console.log(error.response, "Very bad response");
+    // response.status(500).send(error);
+  }
+
+  //   console.log(res.data);
 }
 
 checkAndChangePermissionAccess();

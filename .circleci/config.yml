@@ -16,7 +16,7 @@ jobs:
     steps:
       - run:
           name: Check access and update permissions
-          command: "curl https://[YOUR_HEROKU_APP_NAME].herokuapp.com/check-access"
+          command: "curl https://db-backup-circleci.herokuapp.com/check-access"
 
 parameters:
   run-schedule:
