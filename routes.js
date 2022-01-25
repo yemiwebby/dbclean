@@ -21,8 +21,8 @@ app.post("/create-permission", async (request, response) => {
 
 app.get("/check-access", async (request, response) => {
   const result = await userModel.updateMany(
-    { endDate: { $gte: Date.now() } },
-    { hasAccess: true }
+    { endDate: { $lt: Date.now() } },
+    { hasAccess: false }
   );
 
   try {
