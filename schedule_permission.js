@@ -15,7 +15,7 @@ async function checkAndChangePermissionAccess() {
     {
       name: "Check and Change permission",
       description:
-        "Check and revoke peprmissions assigned to users every night.",
+        "Check and revoke permissions assigned to users every night.",
       "attribution-actor": "system",
       parameters: {
         branch: "main",
